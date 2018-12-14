@@ -1,6 +1,6 @@
 # pykeys: Securely store and use your API keys
 
-The purpose of this package is to offer a secure way to store and retrieve API tokens in the use of API interfaces in Python code. Once you register a key in the vault you can reuse it in any of your Python programs. All keys are encrypted and stored in the library's install path.
+The purpose of this package is to offer a secure way to store and retrieve API tokens when interacting with such interfaces in Python code. Once you register a key in the vault you can reuse it in any of your Python programs. All keys are encrypted and stored in the library's install path.
 
 It uses Python's `criptography` library to encrypt all token values that are stored in the local vault.
 
