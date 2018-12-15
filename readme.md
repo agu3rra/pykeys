@@ -8,28 +8,34 @@ It uses Python's `criptography` library to encrypt all token values that are sto
 ```Python
 >>> import pykeys as pk
 >>> vault = pk.vault()
-"""
-This is a brand new vault. Please select one of the options below:
-1. Generate new key.
-2. Enter an existing Fernet key you wish to use.
-"""
->>> 1
-"""
-This is your vault key. Take note of it if you ever wish to reuse it in a different vault.
-Key: dasdsad2dded==
-"""
->>> app = 'Google API'
->>> secrets = {'token':'13213-DSdSD3-3e2Sad3ad'}
->>> vault.add(app, secrets)
-"""
-The new token has been added to the vault.
-"""
+>>> app='Google API'
+>>> secrets={'token':'mysupersecrettoken'}
+>>> vault.add(app,secrets)
 >>> vault.view()
->>> vault.get(app='Google API',entry='token')
-'13213-DSdSD3-3e2Sad3ad'
+{
+    "Google API": {
+        "token": "gAAAAABcFPOMUOyFhnchp6u6j8v0J7lzcY_0ZtCdgrToHpv2Vtsr44Lb9BRDfoMWuNXQNbnBiXIBxYsHjXRAkyuf9VJYZbR_E7tY1AeKjpYglpk0NSC_NN0="
+    }
+}
+>>> vault.get('Google API', 'token')
+'mysupersecrettoken'
+```
+
+Subsequent code executions can use the previously saved tokens:
+```Python
+>>> import pykeys as pk
+>>> vault = pk.vault()
+Master key read from file.
+>>> vault.view()
+{
+    "Google API": {
+        "token": "gAAAAABcFPyihLHc4NuJk2SymYcmTZgGO0gHeSjEbDWy6GugrlTHJ7o0kjQ6tduHdHsSuquD0lgGlRQij02f47uYCyvWEfBE4o2j5KV5yP7t3qCADl-Ou9o="
+    }
+}
 ```
 
 ## Install
 ```bash
 $ pip install pykeys
 ```
+7MHyRPCy5TrVwYsKULvCMzUe5ha9-34ZaPTcw98PxyE=
