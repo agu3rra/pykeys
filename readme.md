@@ -34,8 +34,9 @@ Master key read from file.
 }
 ```
 
+PS: this is what a Fernet key looks like: `7MHyRPCy5TrVwYsKULvCMzUe5ha9-34ZaPTcw98PxyE=`
+
 ## Install
 ```bash
 $ pip install pykeys
 ```
-7MHyRPCy5TrVwYsKULvCMzUe5ha9-34ZaPTcw98PxyE=
