@@ -5,3 +5,5 @@
 *.pyc
 build/
 pykeys.egg-info/
+keys.json
+master_key.json

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pykeys',
-    version='18.12.0dev',
+    version='18.12.1dev',
     packages=find_packages(),
     install_requires=['cryptography'],
     author='Andre Guerra',
