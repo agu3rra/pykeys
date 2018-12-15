@@ -1,8 +1,10 @@
 import os
 import json
 from cryptography.fernet import Fernet
-from .encryption import Encryption
 from pkg_resources import resource_filename
+from .encryption import Encryption
+from .encryption import check_valid_fernet
+
 
 class Vault():
 
@@ -23,33 +25,12 @@ class Vault():
             return key
 
         else: # we need a new master key
-            selection = self._key_selection()
-            if selection == 1: # autogenerate key
-                key = Fernet.generate_key()
-                key = key.decode('utf-8')
-            elif selection == 2: # get key from user
-                key = input('Please enter the master encryption key: ')
-            else:
-                raise ValueError('Invalid selection.')
-            
-            # store key and return it
+            key = Fernet.generate_key()
+            key = key.decode('utf-8')
             data = {'key': key}
             with open(self.master_key_file, 'w') as file_handler:
                 file_handler.write(json.dumps(data))
             return key
-
-    def _key_selection(self):
-        """Asks the user for a valid option"""
-        valid_options = {1: '1. Generate master key.',
-                         2: '2. Provide existing Fernet key.'}
-        while True:
-            print('Please select one of the options below:')
-            for _, value in valid_options.items():
-                print(value)
-            user_selection = input()
-            user_selection = int(user_selection)
-            if user_selection in valid_options.keys():
-                return user_selection
 
     def _read_persistent_vault(self):
         """Returns existing data in the keys file."""
@@ -68,6 +49,25 @@ class Vault():
         """Overwrites data in the keys file with vault's instance values."""
         with open(self.keys_file, 'w') as file_handler:
             file_handler.write(json.dumps(self.vault))
+
+    def replace_master_key(self, key):
+        """
+        Replaces master key for the vault.
+        
+        :param key: (str) a valid Fernet key.
+                    Must be 32 url-safe base64-encoded bytes
+                    also accepts Fernet.generate_key() as input
+        """
+        if check_valid_fernet(key):
+            with open(self.master_key_file, 'w') as file_handler:
+                if type(key) == bytes:
+                    key = key.decode('utf-8')
+                file_handler.write(json.dumps({'key': key}))
+            print('Master key updated.')
+            return True
+        else:
+            raise ValueError(
+                'Fernet key must be 32 url-safe base64-encoded bytes')
 
     def burn(self):
         """Deletes master key and keys file. Package returns to install state.

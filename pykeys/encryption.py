@@ -1,5 +1,21 @@
 import cryptography
 from cryptography.fernet import Fernet
+import base64
+import binascii
+
+def check_valid_fernet(value):
+    """
+    Returns true if value is a valid Fernet key
+    Fernet key must be 32 url-safe base64-encoded bytes
+
+    :param value: (str) a string representing a Fernet key
+    """
+    try:
+        decoded = base64.urlsafe_b64decode(value)
+        if len(decoded) != 32: return False
+        return True
+    except binascii.Error:
+        return False
 
 class Encryption():
     """

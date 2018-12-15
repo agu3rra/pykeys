@@ -22,37 +22,46 @@ class TestEncryption():
 
 class TestVault():
     def setup(self):
-        self.vault = Vault() # cannot be tested in the very first run
+        self.vault = Vault()
+        self.secrets = {'client_id':'123456',
+                        'client_secret':'iveseenbetter'}
 
     def test_add(self):
-        # Add
-        secrets = {'client_id':'123456',
-                   'client_secret':'iveseenbetter'}
-        self.vault.add('that_app', secrets)
-        self.vault.add('another_app', secrets)
-        self.vault.add('yet_another_app', secrets)
         
-        # Get
+        self.vault.add('that_app', self.secrets)
+        self.vault.add('another_app', self.secrets)
+        self.vault.add('yet_another_app', self.secrets)
+        
         value = self.vault.get('that_app', 'client_secret')
         assert value == 'iveseenbetter'
 
+    def test_invalid_ops(self):
         with pytest.raises(TypeError):
-            value = self.vault.get(2,4)
+            self.vault.get(2,4)
             self.vault.add(4.2,4)
             self.vault.remove(1321)
 
+        with pytest.raises(ValueError):
+            self.vault.add('that_app', self.secrets)
+            self.vault.add('that_app', self.secrets) # repeated app
+
+    def test_retrive_undefined_app(self):
         value = self.vault.get('madeupapp','madeupitem')
         assert value is None
 
-        with pytest.raises(ValueError):
-            self.vault.add('that_app', secrets)
-
-
-        # View
-        print('Showing you the vault to eyeball validation of .view():')
-        self.vault.view()
-
-        # Remove
+    def test_removal(self):
+        self.vault.add('that_app', self.secrets)
         assert self.vault.remove('that_app')
         assert self.vault.remove('madeupapp') == False
 
+    def test_master_key_update_ok(self):
+        new_key = Fernet.generate_key()
+        assert self.vault.replace_master_key(new_key)
+    
+    def test_master_key_update_fail(self):
+        with pytest.raises(ValueError):
+            new_key = 'invalidfernetkey'
+            self.vault.replace_master_key(new_key)
+
+    def teardown(self):
+        self.vault.burn()
