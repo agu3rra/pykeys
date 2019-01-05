@@ -7,3 +7,5 @@ build/
 pykeys.egg-info/
 keys.json
 master_key.json
+alternate_init.py
+alternate_init2.py

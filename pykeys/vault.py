@@ -21,7 +21,6 @@ class Vault():
             with open(self.master_key_file) as file_handler:
                 data = json.load(file_handler)
                 key = data['key']
-            print('Master key read from file.')
             return key
 
         else: # we need a new master key

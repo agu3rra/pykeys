@@ -7,26 +7,23 @@ It uses Python's `criptography` library to encrypt all token values that are sto
 ## Use example
 ```Python
 >>> import pykeys as pk
->>> vault = pk.vault()
 >>> app='Google API'
 >>> secrets={'token':'mysupersecrettoken'}
->>> vault.add(app,secrets)
->>> vault.view()
+>>> pk.add(app,secrets)
+>>> pk.view()
 {
     "Google API": {
         "token": "gAAAAABcFPOMUOyFhnchp6u6j8v0J7lzcY_0ZtCdgrToHpv2Vtsr44Lb9BRDfoMWuNXQNbnBiXIBxYsHjXRAkyuf9VJYZbR_E7tY1AeKjpYglpk0NSC_NN0="
     }
 }
->>> vault.get('Google API', 'token')
+>>> pk.get('Google API', 'token')
 'mysupersecrettoken'
 ```
 
 Subsequent code executions can use the previously saved tokens:
 ```Python
 >>> import pykeys as pk
->>> vault = pk.vault()
-Master key read from file.
->>> vault.view()
+>>> pk.view()
 {
     "Google API": {
         "token": "gAAAAABcFPyihLHc4NuJk2SymYcmTZgGO0gHeSjEbDWy6GugrlTHJ7o0kjQ6tduHdHsSuquD0lgGlRQij02f47uYCyvWEfBE4o2j5KV5yP7t3qCADl-Ou9o="
