@@ -1,3 +1,4 @@
+[![Known Vulnerabilities](https://snyk.io//test/github/agu3rra/pykeys/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/agu3rra/pykeys?targetFile=requirements.txt)
 # pykeys: Securely store and use your API keys
 
 The purpose of this package is to offer a secure way to store and retrieve API tokens when interacting with such interfaces in Python code. Once you register a key in the vault you can reuse it in any of your Python programs. All keys are encrypted and stored in the library's install path.
