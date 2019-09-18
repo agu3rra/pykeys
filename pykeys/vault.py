@@ -145,3 +145,41 @@ class Vault():
 
         cripto = Encryption(self.master_key)
         return cripto.decrypt(self.vault[app][item])
+
+    def _act_on_leafs (self, tree, operation):
+        """
+        Executes operation on a tree.
+
+        :param tree: (dict) a python dictionary that you wish to change leafs
+        :param operation: (str) encryption/decryption
+        :returns: the encrypted dictionary tree
+        """
+        # Validates operation
+        if (operation != 'encrypt') and (operation != 'decrypt'):
+            print('Invalid operation; Only \'encrypt\' or \'decrypt\' available.')
+            return None
+
+        cript = Encryption(self.master_key)
+
+        # Calls for recursion
+        for key, child in tree.items():
+            if(type(child)!=type({})):
+                if operation == 'encrypt':
+                    tree.update({key:cript.encrypt(child)})
+                else:
+                    tree.update({key:cript.decrypt(child)})
+            else:
+                tree.update({key:self._act_on_leafs(child, operation)})
+        return tree
+
+    def dict_encrypt(self, tree):
+        """
+        encrypts a dictionary tree
+        """
+        return self._act_on_leafs(tree, 'encrypt')
+
+    def dict_decrypt(self, tree):
+        """
+        encrypts a dictionary tree
+        """
+        return self._act_on_leafs(tree, 'decrypt')

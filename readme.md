@@ -34,6 +34,41 @@ Subsequent code executions can use the previously saved tokens:
 
 PS: this is what a Fernet key looks like: `7MHyRPCy5TrVwYsKULvCMzUe5ha9-34ZaPTcw98PxyE=`
 
+## New Dictionary encryption feature
+Allows you to provide an unencrypted dictionary and get an encrypted version of its values. Only leafs will be encrypted. Example:
+```Python
+>>> secrets = {
+    "postgresql":{
+        "names": {
+            "db":"sampledb",
+            "user":"admin"
+        },
+        "password":"supersecret"
+    }
+}
+>>> pk.dict_encrypt(secrets)
+>>> secrets
+{
+    "postgresql":{
+        "names": {
+            "db":"gAAAAABcFPyihLHc4NuJk2SymYcmTZgdasdsaGugrlTHJ7o0kjQ6tduHdHsSuquD0lgGlRQij02f47uYCyvWEfBE4o2j5KV5yP7t3qCADl-Ou9o=",
+            "user":"gAAAAABcFPyihLHc4NuJk2SymYcmTZgGO0gHeSjEbDWy6GugrlTHJ7o0gsdfg45SuquD0lgGlRQij02f47uYCyvWEfBE4o2j5KV5yP7t3qCADl-Ou9o="
+        },
+        "password":"gAAAAABcFPyihLHc4NuJk2SymYcmTZgGO0gHeSjEbDWy6GugrlTHdasdo0kjQ6tduHdHsSuquD0lgGlRQij02f47uYCyvWEfBE4o2j5KV5yP7t3qCADl-Ou9o="
+    }
+}
+>>> pk.dict_decrypt(secrets)
+{
+    "postgresql":{
+        "names": {
+            "db":"sampledb",
+            "user":"admin"
+        }
+        "password":"supersecret"
+    }
+}
+```
+
 ## Install
 ```bash
 $ pip install pykeys

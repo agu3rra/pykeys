@@ -23,3 +23,9 @@ def remove(app):
 
 def get(app, item):
     return internal_vault.get(app, item)
+
+def dict_encrypt(tree):
+    return internal_vault.dict_encrypt(tree)
+
+def dict_decrypt(tree):
+    return internal_vault.dict_decrypt(tree)
